@@ -60,7 +60,7 @@ export default function SkipSelection() {
   const handleCustomQuote = () => {
     toast({
       title: "Custom Quote Request",
-      description: "Redirecting to custom quote form...",
+      description: "We'll help you find the perfect skip for your unique requirements!",
     });
     // In a real app, this would navigate to a custom quote page
     setTimeout(() => {

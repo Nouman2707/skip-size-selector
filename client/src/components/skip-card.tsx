@@ -61,25 +61,19 @@ export default function SkipCard({ skip, isSelected, onSelect }: SkipCardProps) 
   const totalPrice = skip.price_before_vat * (1 + skip.vat / 100);
 
   const handleCardClick = () => {
+    const skipName = getSkipName(skip.size);
     if (!isSelected) {
-      const skipName = getSkipName(skip.size);
       toast({
         title: "Skip Selected",
-        description: `${skipName} (${skip.size} cubic yards) - Perfect for your project needs!`,
+        description: `${skipName} (${skip.size} cubic yards) - £${totalPrice.toFixed(2)} inc. VAT`,
+      });
+    } else {
+      toast({
+        title: "Skip Already Selected",
+        description: `${skipName} is currently your chosen option`,
       });
     }
     onSelect();
-  };
-
-  const handleCardHover = () => {
-    if (!isSelected) {
-      const skipName = getSkipName(skip.size);
-      toast({
-        title: `${skipName} Details`,
-        description: `£${totalPrice.toFixed(2)} inc. VAT • ${skip.hire_period_days} day hire • ${skip.allowed_on_road ? 'Road permit included' : 'Private land only'}`,
-        duration: 2000,
-      });
-    }
   };
 
   return (
@@ -92,7 +86,6 @@ export default function SkipCard({ skip, isSelected, onSelect }: SkipCardProps) 
             : 'border border-gray-200'
       }`}
       onClick={handleCardClick}
-      onMouseEnter={handleCardHover}
     >
       <CardContent className="p-6">
         {skip.size === 6 && (
