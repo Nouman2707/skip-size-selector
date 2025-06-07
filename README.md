@@ -73,7 +73,7 @@ This project is a redesign of the "Choose Your Skip Size" page from [https://wew
 
 4. Open your browser and go to:
    ```
-   http://localhost:5173
+   http://localhost:5000
    ```
 
 ---
@@ -85,22 +85,6 @@ You can view a live version of the redesigned page here:
 
 ---
 
-## 📁 Project Structure
-
-```
-skip-redesign/
-├── public/
-├── src/
-│   ├── components/
-│   │   └── SkipCard.jsx
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
-├── package.json
-└── README.md
-```
-
----
 
 ## 📝 Notes
 
