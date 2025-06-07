@@ -37,17 +37,20 @@ export type User = typeof users.$inferSelect;
 export type InsertSkip = z.infer<typeof insertSkipSchema>;
 export type Skip = typeof skips.$inferSelect;
 
-// API Response types
+// API Response types based on actual WeWantWaste API
 export interface SkipApiResponse {
-  id: string;
-  name: string;
-  size: string;
-  price: number;
-  currency: string;
-  dimensions?: string;
-  weight_limit?: string;
-  description?: string;
-  features?: string[];
-  popular?: boolean;
-  available?: boolean;
+  id: number;
+  size: number;
+  hire_period_days: number;
+  transport_cost: number | null;
+  per_tonne_cost: number | null;
+  price_before_vat: number;
+  vat: number;
+  postcode: string;
+  area: string;
+  forbidden: boolean;
+  created_at: string;
+  updated_at: string;
+  allowed_on_road: boolean;
+  allows_heavy_waste: boolean;
 }

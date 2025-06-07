@@ -11,65 +11,66 @@ interface SkipCardProps {
 }
 
 export default function SkipCard({ skip, isSelected, onSelect }: SkipCardProps) {
-  const getSkipIcon = (name: string) => {
-    const lowerName = name.toLowerCase();
-    if (lowerName.includes('mini') || lowerName.includes('small')) {
+  const getSkipIcon = (size: number) => {
+    if (size <= 4) {
       return "fas fa-cube";
-    } else if (lowerName.includes('standard') || lowerName.includes('medium')) {
+    } else if (size <= 6) {
       return "fas fa-cubes";
-    } else if (lowerName.includes('large') || lowerName.includes('xl')) {
+    } else if (size <= 8) {
       return "fas fa-layer-group";
-    } else if (lowerName.includes('container') || lowerName.includes('roll')) {
+    } else {
       return "fas fa-shipping-fast";
     }
-    return "fas fa-cube";
   };
 
-  const getIconColor = (name: string) => {
-    const lowerName = name.toLowerCase();
-    if (lowerName.includes('container') || lowerName.includes('roll')) {
+  const getIconColor = (size: number) => {
+    if (size >= 8) {
       return "text-secondary";
     }
     return "text-primary";
   };
 
-  const getBackgroundColor = (name: string) => {
-    const lowerName = name.toLowerCase();
-    if (lowerName.includes('container') || lowerName.includes('roll')) {
+  const getBackgroundColor = (size: number) => {
+    if (size >= 8) {
       return "bg-green-100";
     }
     return "bg-blue-100";
   };
 
-  const getUseCases = (size: string) => {
-    const cubicYards = parseInt(size.replace(/[^0-9]/g, ''));
-    
-    if (cubicYards <= 3) {
+  const getUseCases = (size: number) => {
+    if (size <= 4) {
       return ['Small garden clearances', 'Hedge trimmings', 'Lawn clippings'];
-    } else if (cubicYards <= 6) {
+    } else if (size <= 6) {
       return ['Medium garden projects', 'Tree pruning waste', 'Shed clearouts'];
-    } else if (cubicYards <= 10) {
+    } else if (size <= 8) {
       return ['Large garden overhauls', 'Commercial landscaping', 'Multiple property cleanup'];
-    } else if (cubicYards <= 15) {
-      return ['Major landscaping projects', 'Construction green waste', 'Commercial garden clearance'];
     } else {
-      return ['Industrial projects', 'Large commercial sites', 'Major construction waste'];
+      return ['Major landscaping projects', 'Construction green waste', 'Commercial garden clearance'];
     }
   };
+
+  const getSkipName = (size: number) => {
+    if (size <= 4) return 'Mini Skip';
+    if (size <= 6) return 'Midi Skip';
+    if (size <= 8) return 'Builder\'s Skip';
+    return 'Large Skip';
+  };
+
+  const totalPrice = skip.price_before_vat * (1 + skip.vat / 100);
 
   return (
     <Card 
       className={`cursor-pointer transition-all duration-200 overflow-hidden group hover:shadow-lg ${
         isSelected 
           ? 'ring-2 ring-primary bg-blue-50 border-primary' 
-          : skip.popular 
+          : skip.size === 6 
             ? 'border-2 border-primary' 
             : 'border border-gray-200'
       }`}
       onClick={onSelect}
     >
       <CardContent className="p-6">
-        {skip.popular && (
+        {skip.size === 6 && (
           <Badge className="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1">
             Most Popular
           </Badge>
@@ -77,21 +78,21 @@ export default function SkipCard({ skip, isSelected, onSelect }: SkipCardProps) 
         
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <div className={`w-12 h-12 ${getBackgroundColor(skip.name)} rounded-lg flex items-center justify-center`}>
-              <i className={`${getSkipIcon(skip.name)} ${getIconColor(skip.name)} text-xl`}></i>
+            <div className={`w-12 h-12 ${getBackgroundColor(skip.size)} rounded-lg flex items-center justify-center`}>
+              <i className={`${getSkipIcon(skip.size)} ${getIconColor(skip.size)} text-xl`}></i>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900">{skip.name}</h3>
-              <p className="text-sm text-gray-500">{skip.size}</p>
+              <h3 className="font-semibold text-gray-900">{getSkipName(skip.size)}</h3>
+              <p className="text-sm text-gray-500">{skip.size} cubic yards</p>
             </div>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-gray-900">£{skip.price}</div>
+            <div className="text-2xl font-bold text-gray-900">£{totalPrice.toFixed(2)}</div>
             <div className="text-sm text-gray-500">inc. VAT</div>
           </div>
         </div>
         
-        <div className={`${skip.popular ? 'bg-blue-50' : 'bg-gray-50'} rounded-lg p-4 mb-4`}>
+        <div className={`${skip.size === 6 ? 'bg-blue-50' : 'bg-gray-50'} rounded-lg p-4 mb-4`}>
           <div className="text-sm text-gray-600 mb-2">Perfect for:</div>
           <ul className="text-sm text-gray-700 space-y-1">
             {getUseCases(skip.size).map((useCase, index) => (
@@ -105,12 +106,12 @@ export default function SkipCard({ skip, isSelected, onSelect }: SkipCardProps) 
 
         <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
           <span className="flex items-center">
-            <i className="fas fa-ruler-combined mr-1"></i>
-            {skip.dimensions || 'Standard size'}
+            <i className="fas fa-calendar-alt mr-1"></i>
+            {skip.hire_period_days} day hire
           </span>
           <span className="flex items-center">
-            <i className="fas fa-weight-hanging mr-1"></i>
-            {skip.weight_limit || 'Standard weight'}
+            <i className="fas fa-road mr-1"></i>
+            {skip.allowed_on_road ? 'Road permit included' : 'Private land only'}
           </span>
         </div>
 

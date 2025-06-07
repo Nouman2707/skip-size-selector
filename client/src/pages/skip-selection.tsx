@@ -25,9 +25,10 @@ export default function SkipSelection() {
 
   const handleSkipSelect = (skip: SkipApiResponse) => {
     setSelectedSkip(skip);
+    const skipName = skip.size <= 4 ? 'Mini Skip' : skip.size <= 6 ? 'Midi Skip' : skip.size <= 8 ? 'Builder\'s Skip' : 'Large Skip';
     toast({
       title: "Skip Selected",
-      description: `${skip.name} has been selected for your garden waste disposal.`,
+      description: `${skipName} (${skip.size} cubic yards) has been selected for your garden waste disposal.`,
     });
   };
 
@@ -36,15 +37,18 @@ export default function SkipSelection() {
       // Store selection in sessionStorage for next page
       sessionStorage.setItem('selectedSkip', JSON.stringify(selectedSkip));
       
+      const skipName = selectedSkip.size <= 4 ? 'Mini Skip' : selectedSkip.size <= 6 ? 'Midi Skip' : selectedSkip.size <= 8 ? 'Builder\'s Skip' : 'Large Skip';
+      const totalPrice = (selectedSkip.price_before_vat * (1 + selectedSkip.vat / 100)).toFixed(2);
+      
       toast({
         title: "Proceeding to Booking",
-        description: `Continuing with ${selectedSkip.name} - £${selectedSkip.price}`,
+        description: `Continuing with ${skipName} - £${totalPrice}`,
       });
       
       // In a real app, this would navigate to the booking page
       // For demo purposes, we'll show an alert
       setTimeout(() => {
-        alert(`Proceeding with ${selectedSkip.name} - £${selectedSkip.price}\n\nIn a real application, this would navigate to the booking details page.`);
+        alert(`Proceeding with ${skipName} - £${totalPrice}\n\nIn a real application, this would navigate to the booking details page.`);
       }, 1000);
     }
   };
@@ -171,12 +175,12 @@ export default function SkipSelection() {
                         <CheckCircle className="text-secondary text-xl" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-900">{selectedSkip.name} Selected</h3>
-                        <p className="text-sm text-gray-600">{selectedSkip.size} • {selectedSkip.description}</p>
+                        <h3 className="font-semibold text-gray-900">{selectedSkip.size <= 4 ? 'Mini Skip' : selectedSkip.size <= 6 ? 'Midi Skip' : selectedSkip.size <= 8 ? 'Builder\'s Skip' : 'Large Skip'} Selected</h3>
+                        <p className="text-sm text-gray-600">{selectedSkip.size} cubic yards • {selectedSkip.hire_period_days} day hire</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-gray-900">£{selectedSkip.price}</div>
+                      <div className="text-2xl font-bold text-gray-900">£{(selectedSkip.price_before_vat * (1 + selectedSkip.vat / 100)).toFixed(2)}</div>
                       <div className="text-sm text-gray-500">inc. VAT & delivery</div>
                     </div>
                   </div>
