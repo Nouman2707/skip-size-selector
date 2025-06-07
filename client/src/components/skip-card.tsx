@@ -71,9 +71,14 @@ export default function SkipCard({ skip, isSelected, onSelect }: SkipCardProps) 
     >
       <CardContent className="p-6">
         {skip.size === 6 && (
-          <Badge className="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1">
-            Most Popular
-          </Badge>
+          <div className="absolute -top-2 -right-2 z-10">
+            <div className="bg-gradient-to-r from-orange-400 to-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg transform rotate-12 animate-pulse">
+              <span className="flex items-center">
+                <i className="fas fa-star mr-1"></i>
+                Most Popular
+              </span>
+            </div>
+          </div>
         )}
         
         <div className="flex items-center justify-between mb-4">
