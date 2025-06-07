@@ -81,7 +81,7 @@ This project is a redesign of the "Choose Your Skip Size" page from [https://wew
 ## 🌐 Live Preview
 
 You can view a live version of the redesigned page here:  
-🔗 [CodeSandbox Link]([[https://codesandbox.io/s/your-sandbox-link]([https://codesandbox.io/p/github/Nouman2707/skip-size-selector/main?workspaceId=ws_YPnN3agVgLfMy8ZPNG7L3B])])
+🔗 [CodeSandbox Link]([[https://codesandbox.io/s/your-sandbox-link](https://codesandbox.io/p/github/Nouman2707/skip-size-selector/main?workspaceId=ws_YPnN3agVgLfMy8ZPNG7L3B)
 
 ---
 
