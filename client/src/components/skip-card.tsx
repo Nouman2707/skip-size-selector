@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Plus } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import type { SkipApiResponse } from "@shared/schema";
 
 interface SkipCardProps {
@@ -11,6 +12,7 @@ interface SkipCardProps {
 }
 
 export default function SkipCard({ skip, isSelected, onSelect }: SkipCardProps) {
+  const { toast } = useToast();
   const getSkipIcon = (size: number) => {
     if (size <= 4) {
       return "fas fa-cube";
@@ -58,6 +60,28 @@ export default function SkipCard({ skip, isSelected, onSelect }: SkipCardProps) 
 
   const totalPrice = skip.price_before_vat * (1 + skip.vat / 100);
 
+  const handleCardClick = () => {
+    if (!isSelected) {
+      const skipName = getSkipName(skip.size);
+      toast({
+        title: "Skip Selected",
+        description: `${skipName} (${skip.size} cubic yards) - Perfect for your project needs!`,
+      });
+    }
+    onSelect();
+  };
+
+  const handleCardHover = () => {
+    if (!isSelected) {
+      const skipName = getSkipName(skip.size);
+      toast({
+        title: `${skipName} Details`,
+        description: `£${totalPrice.toFixed(2)} inc. VAT • ${skip.hire_period_days} day hire • ${skip.allowed_on_road ? 'Road permit included' : 'Private land only'}`,
+        duration: 2000,
+      });
+    }
+  };
+
   return (
     <Card 
       className={`cursor-pointer transition-all duration-200 overflow-hidden group hover:shadow-lg ${
@@ -67,7 +91,8 @@ export default function SkipCard({ skip, isSelected, onSelect }: SkipCardProps) 
             ? 'border-2 border-primary' 
             : 'border border-gray-200'
       }`}
-      onClick={onSelect}
+      onClick={handleCardClick}
+      onMouseEnter={handleCardHover}
     >
       <CardContent className="p-6">
         {skip.size === 6 && (
